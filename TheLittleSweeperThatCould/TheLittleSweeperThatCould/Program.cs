@@ -8,8 +8,14 @@ namespace TheLittleSweeperThatCould
 {
     class Program
     {
+        private const int GRID_SIZE = 200000;
+        private const int OFFSET = 100000;
+
         static void Main(string[] args)
         {
+            
+
+            
         }
     }
 }
