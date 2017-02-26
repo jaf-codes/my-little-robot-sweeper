@@ -24,7 +24,8 @@ namespace TheLittleSweeperThatCould.Parsing
             return new Coordinate()
             {
                 X = Int32.Parse(coordinates[0]),
-                Y = Int32.Parse(coordinates[1])
+                Y = Int32.Parse(coordinates[1]),
+                IsClean = true
             };
         }
 

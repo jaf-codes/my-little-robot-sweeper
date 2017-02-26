@@ -50,8 +50,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parsing\ParserTests.cs" />
-    <Compile Include="InstructionsTests.cs" />
     <Compile Include="CommandTests.cs" />
+    <Compile Include="GridTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
