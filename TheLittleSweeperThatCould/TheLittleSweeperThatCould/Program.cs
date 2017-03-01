@@ -9,21 +9,18 @@ namespace TheLittleSweeperThatCould
 {
     public class Program
     {
-        private const int gridSize = 200001;
-        private const int offset = 100001;
-
         public static void Main(string[] args)
         {
             int locationsCleaned = 0;
 
             try
             {
-                Grid grid = new Grid(gridSize);
                 Parser parser = new Parser();
                 int numberOfCommands = parser.ParseNumberOfCommands(Console.ReadLine());
                 Coordinate location = parser.ParseStartingLocation(Console.ReadLine());
+                Grid grid = new Grid(location.Longitude, location.Latitude);
 
-                locationsCleaned += grid.Clean(location);
+                locationsCleaned++;
 
                 while (numberOfCommands > 0)
                 {
@@ -33,6 +30,7 @@ namespace TheLittleSweeperThatCould
                     {
                         location = grid.RetrieveNext(location, command.Direction);
                         locationsCleaned += grid.Clean(location);
+                        Console.WriteLine(string.Format("Lat: {0}; Long: {1}", location.Latitude, location.Longitude));
                     }
 
                     numberOfCommands--;

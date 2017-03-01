@@ -8,67 +8,86 @@ namespace TheLittleSweeperThatCould
 {
     public class Grid
     {
-        private Coordinate[][] coordinates;
+        private Dictionary<Coordinate, Tile> coordinates;
 
-        public Grid(int initialSize)
+        public Grid(int longitude, int latitude)
         {
-            coordinates = new Coordinate[initialSize][];
-
-            for (int x = 0; x < initialSize; x++)
+            coordinates = new Dictionary<Coordinate, Tile>
             {
-                coordinates[x] = new Coordinate[initialSize];
-
-                for (int y = 0; y < initialSize; y++)
                 {
-                    coordinates[x][y] = null;
+                    new Coordinate(){ Longitude = longitude, Latitude = latitude },
+                    new Tile() { IsClean = true }
                 }
+            };
+        }
+
+        public Coordinate RetrieveNext(Coordinate location, Direction direction)
+        {
+            Tile thisTile = coordinates[location];
+            Coordinate nextLocation = Advance(location, direction);
+
+            InitializeIfNecessary(nextLocation);
+
+            return nextLocation;
+        }
+
+        private void InitializeIfNecessary(Coordinate nextLocation)
+        {
+            if (!coordinates.TryGetValue(nextLocation, out Tile nextTile))
+            {
+                nextTile = new Tile()
+                {
+                    IsClean = false
+                };
+
+                coordinates.Add(nextLocation, nextTile);
+            }
+            else
+            {
+                nextTile = coordinates[nextLocation];
             }
         }
 
-        public Coordinate Retrieve(int x, int y)
+        public Coordinate Advance(Coordinate coordinate, Direction direction)
         {
-            return coordinates[x][y];
-        }
-
-        public Coordinate RetrieveNext(Coordinate coordinate, Direction direction)
-        {
-            int x = coordinate.X;
-            int y = coordinate.Y;
+            int longitude = coordinate.Longitude;
+            int latitude = coordinate.Latitude;
 
             switch (direction)
             {
                 case Direction.North:
-                    return Retrieve(x, y + 1);
+                    latitude++;
+                    break;
                 case Direction.East:
-                    return Retrieve(x + 1, y);
+                    longitude++;
+                    break;
                 case Direction.South:
-                    return Retrieve(x, y - 1);
+                    latitude--;
+                    break;
                 case Direction.West:
-                    return Retrieve(x - 1, y);
+                    longitude--;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException("Neither flying nor transdimensional custodial robots are permitted for this application");
             }
+
+            return new Coordinate()
+            {
+                Longitude = longitude,
+                Latitude = latitude
+            };
+
         }
 
-        public void Set(Coordinate coordinate)
+        public int Clean(Coordinate location)
         {
-            coordinates[coordinate.X][coordinate.Y] = coordinate;
-        }
-
-        public int Clean(Coordinate coordinate)
-        {
+            Tile tile = coordinates[location];
             int tilesCleaned = 0;
-            Coordinate original = Retrieve(coordinate.X, coordinate.Y);
-            if (original == null)
+            if (!tile.IsClean)
             {
-                original = new Coordinate() { X = coordinate.X, Y = coordinate.Y, IsClean = false };
-            }
-            if (!original.IsClean)
-            {
-                original.IsClean = true;
+                tile.IsClean = true;
                 tilesCleaned++;
             }
-            Set(original);
             return tilesCleaned;
         }
     }

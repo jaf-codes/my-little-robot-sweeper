@@ -18,15 +18,15 @@ namespace TheLittleSweeperThatCould
 
         public static Direction Translate(string direction)
         {
-            switch (direction.ToLower())
+            switch (direction)
             {
-                case "n":
+                case "N":
                     return Direction.North;
-                case "e":
+                case "E":
                     return Direction.East;
-                case "s":
+                case "S":
                     return Direction.South;
-                case "w":
+                case "W":
                     return Direction.West;
                 default:
                     throw new ArgumentOutOfRangeException();

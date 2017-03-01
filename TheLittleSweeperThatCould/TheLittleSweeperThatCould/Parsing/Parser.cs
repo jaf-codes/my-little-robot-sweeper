@@ -23,9 +23,8 @@ namespace TheLittleSweeperThatCould.Parsing
             string[] coordinates = text.Split(' ');
             return new Coordinate()
             {
-                X = Int32.Parse(coordinates[0]),
-                Y = Int32.Parse(coordinates[1]),
-                IsClean = true
+                Longitude = Int32.Parse(coordinates[0]),
+                Latitude = Int32.Parse(coordinates[1])
             };
         }
 

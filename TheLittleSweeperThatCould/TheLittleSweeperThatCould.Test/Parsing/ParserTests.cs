@@ -80,7 +80,7 @@ namespace TheLittleSweeperThatCould.Test
             //Arrange
             string text = "1 1";
 
-            Coordinate expected = new Coordinate() { X = 1, Y = 1 };
+            Coordinate expected = new Coordinate() { Longitude = 1, Latitude = 1 };
 
             //Act
             Coordinate actual = target.ParseStartingLocation(text);
