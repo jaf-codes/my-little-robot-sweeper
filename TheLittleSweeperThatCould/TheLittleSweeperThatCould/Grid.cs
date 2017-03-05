@@ -8,22 +8,25 @@ namespace TheLittleSweeperThatCould
 {
     public class Grid
     {
-        private Dictionary<Coordinate, Tile> coordinates;
+        private Dictionary<Coordinate, bool> coordinates;
+
+        public Grid(Coordinate startingLocation)
+            : this(startingLocation.Longitude, startingLocation.Latitude) { }
 
         public Grid(int longitude, int latitude)
         {
-            coordinates = new Dictionary<Coordinate, Tile>
+            coordinates = new Dictionary<Coordinate, bool>
             {
                 {
                     new Coordinate(){ Longitude = longitude, Latitude = latitude },
-                    new Tile() { IsClean = true }
+                    true
                 }
             };
         }
 
         public Coordinate RetrieveNext(Coordinate location, Direction direction)
         {
-            Tile thisTile = coordinates[location];
+            bool thisTile = coordinates[location];
             Coordinate nextLocation = Advance(location, direction);
 
             InitializeIfNecessary(nextLocation);
@@ -33,14 +36,9 @@ namespace TheLittleSweeperThatCould
 
         private void InitializeIfNecessary(Coordinate nextLocation)
         {
-            if (!coordinates.TryGetValue(nextLocation, out Tile nextTile))
+            if (!coordinates.TryGetValue(nextLocation, out bool nextTile))
             {
-                nextTile = new Tile()
-                {
-                    IsClean = false
-                };
-
-                coordinates.Add(nextLocation, nextTile);
+                coordinates.Add(nextLocation, false);
             }
             else
             {
@@ -81,14 +79,12 @@ namespace TheLittleSweeperThatCould
 
         public int Clean(Coordinate location)
         {
-            Tile tile = coordinates[location];
-            int tilesCleaned = 0;
-            if (!tile.IsClean)
+            if (!coordinates[location])
             {
-                tile.IsClean = true;
-                tilesCleaned++;
+                coordinates[location] = true;
+                return 1;
             }
-            return tilesCleaned;
+            return 0;
         }
     }
 }

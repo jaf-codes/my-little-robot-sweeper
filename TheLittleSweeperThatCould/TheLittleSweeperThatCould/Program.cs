@@ -12,37 +12,26 @@ namespace TheLittleSweeperThatCould
         public static void Main(string[] args)
         {
             int locationsCleaned = 0;
-
             try
             {
                 Parser parser = new Parser();
                 int numberOfCommands = parser.ParseNumberOfCommands(Console.ReadLine());
-                Coordinate location = parser.ParseStartingLocation(Console.ReadLine());
-                Grid grid = new Grid(location.Longitude, location.Latitude);
+                Coordinate startingLocation = parser.ParseStartingLocation(Console.ReadLine());
 
-                locationsCleaned++;
+                Instructions instructions = new Instructions(startingLocation);
 
-                while (numberOfCommands > 0)
+                for (int i = 0; i < numberOfCommands; i++)
                 {
-                    Command command = parser.ParseCommand(Console.ReadLine());
-
-                    for (int i = command.Distance; i > 0; i--)
-                    {
-                        location = grid.RetrieveNext(location, command.Direction);
-                        locationsCleaned += grid.Clean(location);
-                        Console.WriteLine(string.Format("Lat: {0}; Long: {1}", location.Latitude, location.Longitude));
-                    }
-
-                    numberOfCommands--;
+                    instructions.Load(parser.ParseCommand(Console.ReadLine()));
                 }
+
+                locationsCleaned = instructions.Execute();
             }
             catch { }
             finally
             {
-                Console.WriteLine("Cleaned: " + locationsCleaned);
+                Console.WriteLine("=> Cleaned: " + locationsCleaned);
             }
-
-            Console.ReadKey();
         }
     }
 }
