@@ -13,7 +13,7 @@ namespace TheLittleSweeperThatCould
 
         public override int GetHashCode()
         {
-            return Longitude * Latitude;
+            return (Longitude * Latitude) % 50000;
         }
 
         public override bool Equals(object obj)

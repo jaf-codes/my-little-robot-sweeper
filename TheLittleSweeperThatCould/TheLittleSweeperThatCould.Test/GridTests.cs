@@ -78,10 +78,16 @@ namespace TheLittleSweeperThatCould.Test
             //Arrange
             Coordinate start = Center;
             int expectedTilesCleaned = 1;
+            Command command = new Command()
+            {
+                Direction = direction,
+                Distance = 1
+
+            };
 
             //Act
-            Coordinate actual = target.RetrieveNext(start, direction);
-            int actualTilesCleaned = target.Clean(actual);
+            Coordinate actual = Center;
+            int actualTilesCleaned = target.CleanAll(ref actual, command);
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -125,33 +131,6 @@ namespace TheLittleSweeperThatCould.Test
             Coordinate actual = target.Advance(start, direction);
 
             //Assert
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void Clean_Dirty_ExpectCleaned()
-        {
-            //Arrange
-            Coordinate next = target.RetrieveNext(Center, Direction.North);
-            int expected = 1;
-
-            //Act
-            int actual = target.Clean(NorthOfCenter);
-
-            //Arrange
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void Clean_AlreadyClean_ExpectNoTilesCleaned()
-        {
-            //Arrange
-            int expected = 0;
-
-            //Act
-            int actual = target.Clean(Center);
-
-            //Arrange
             Assert.AreEqual(expected, actual);
         }
     }

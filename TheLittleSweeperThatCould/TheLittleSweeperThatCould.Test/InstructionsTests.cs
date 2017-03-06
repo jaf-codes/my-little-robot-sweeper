@@ -99,6 +99,14 @@ namespace TheLittleSweeperThatCould.Test
         [Ignore]
         public void Memory_Test()
         {
+            Coordinate startingLocation = new Coordinate()
+            {
+                Longitude = 10000,
+                Latitude = 10000
+            };
+
+
+            target = new Instructions(startingLocation);
             int orders = 10000;
             while (orders > 0)
             {

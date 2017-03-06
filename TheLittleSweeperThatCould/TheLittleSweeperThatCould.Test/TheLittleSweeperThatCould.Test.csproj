@@ -53,6 +53,7 @@
     <Compile Include="CommandTests.cs" />
     <Compile Include="GridTests.cs" />
     <Compile Include="InstructionsTests.cs" />
+    <Compile Include="SectorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

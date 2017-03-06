@@ -32,11 +32,7 @@ namespace TheLittleSweeperThatCould
         {
             foreach (Command command in commands)
             {
-                for (int i = 0; i < command.Distance; i++)
-                {
-                    currentLocation = grid.RetrieveNext(currentLocation, command.Direction);
-                    locationsCleaned += grid.Clean(currentLocation);
-                }
+                locationsCleaned += grid.CleanAll(ref currentLocation, command);
             }
 
             return locationsCleaned;

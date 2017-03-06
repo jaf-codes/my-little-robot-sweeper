@@ -8,45 +8,39 @@ namespace TheLittleSweeperThatCould
 {
     public class Grid
     {
-        private Dictionary<Coordinate, bool> coordinates;
+        private HashSet<Coordinate> coordinates;
 
         public Grid(Coordinate startingLocation)
             : this(startingLocation.Longitude, startingLocation.Latitude) { }
 
         public Grid(int longitude, int latitude)
         {
-            coordinates = new Dictionary<Coordinate, bool>
+            coordinates = new HashSet<Coordinate>
             {
                 {
-                    new Coordinate(){ Longitude = longitude, Latitude = latitude },
-                    true
+                    new Coordinate(){ Longitude = longitude, Latitude = latitude }
                 }
             };
         }
 
-        public Coordinate RetrieveNext(Coordinate location, Direction direction)
+        public int CleanAll(ref Coordinate location, Command command)
         {
-            bool thisTile = coordinates[location];
-            Coordinate nextLocation = Advance(location, direction);
+            int locationsCleaned = 0;
 
-            InitializeIfNecessary(nextLocation);
+            for (int i = 0; i < command.Distance; i++)
+            {
+                location = Advance(location, command.Direction);
 
-            return nextLocation;
+                if (coordinates.Add(location))
+                {
+                    locationsCleaned++;
+                }
+            }
+
+            return locationsCleaned;
         }
 
-        private void InitializeIfNecessary(Coordinate nextLocation)
-        {
-            if (!coordinates.TryGetValue(nextLocation, out bool nextTile))
-            {
-                coordinates.Add(nextLocation, false);
-            }
-            else
-            {
-                nextTile = coordinates[nextLocation];
-            }
-        }
-
-        public Coordinate Advance(Coordinate coordinate, Direction direction)
+        public Coordinate Advance(Coordinate coordinate, Direction direction, int distance = 1)
         {
             int longitude = coordinate.Longitude;
             int latitude = coordinate.Latitude;
@@ -54,16 +48,16 @@ namespace TheLittleSweeperThatCould
             switch (direction)
             {
                 case Direction.North:
-                    latitude++;
+                    latitude = latitude + distance;
                     break;
                 case Direction.East:
-                    longitude++;
+                    longitude = longitude + distance;
                     break;
                 case Direction.South:
-                    latitude--;
+                    latitude = latitude - distance;
                     break;
                 case Direction.West:
-                    longitude--;
+                    longitude = longitude - distance;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Neither flying nor transdimensional custodial robots are permitted for this application");
@@ -75,16 +69,6 @@ namespace TheLittleSweeperThatCould
                 Latitude = latitude
             };
 
-        }
-
-        public int Clean(Coordinate location)
-        {
-            if (!coordinates[location])
-            {
-                coordinates[location] = true;
-                return 1;
-            }
-            return 0;
         }
     }
 }
