@@ -30,10 +30,14 @@ namespace TheLittleSweeperThatCould
 
         public int Execute()
         {
-            foreach (Command command in commands)
+            try
             {
-                locationsCleaned += grid.CleanAll(ref currentLocation, command);
+                foreach (Command command in commands)
+                {
+                    locationsCleaned += grid.CleanAll(ref currentLocation, command);
+                }
             }
+            catch { }
 
             return locationsCleaned;
         }

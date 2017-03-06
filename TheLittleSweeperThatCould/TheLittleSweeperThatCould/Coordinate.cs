@@ -8,12 +8,12 @@ namespace TheLittleSweeperThatCould
 {
     public class Coordinate
     {
-        public int Longitude { get; set; }
-        public int Latitude { get; set; }
+        public int Longitude;
+        public int Latitude;
 
         public override int GetHashCode()
         {
-            return (Longitude * Latitude) % 50000;
+            return (Longitude * 53 + Latitude* 97);
         }
 
         public override bool Equals(object obj)
