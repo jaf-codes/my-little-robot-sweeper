@@ -97,6 +97,36 @@ namespace TheLittleSweeperThatCould.Test
 
         [TestMethod]
         [Ignore]
+        public void Random_Test()
+        {
+            //Arrange
+            Coordinate startingLocation = new Coordinate()
+            {
+                Longitude = 0,
+                Latitude = 0
+            };
+
+            Random random = new Random(0);
+
+            target = new Instructions(startingLocation);
+            int orders = 10000;
+            while (orders > 0)
+            {
+                Command randomCommand = new Command()
+                {
+                    Distance = random.Next(1000),
+                    Direction = (Direction)random.Next(3)
+                };
+                target.Load(randomCommand);
+                orders--;
+            }
+            int locations = target.Execute();
+
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        [Ignore]
         public void Memory_Test()
         {
             Coordinate startingLocation = new Coordinate()

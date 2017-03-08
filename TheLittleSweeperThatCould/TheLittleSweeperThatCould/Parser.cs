@@ -6,19 +6,14 @@ using System.Threading.Tasks;
 
 namespace TheLittleSweeperThatCould.Parsing
 {
-    public class Parser
+    public static class Parser
     {
-        public Parser()
-        {
-
-        }
-
-        public int ParseNumberOfCommands(string text)
+        public static int ParseNumberOfCommands(string text)
         {
             return Int32.Parse(text);
         }
 
-        public Coordinate ParseStartingLocation(string text)
+        public static Coordinate ParseStartingLocation(string text)
         {
             string[] coordinates = text.Split(' ');
             return new Coordinate()
@@ -28,14 +23,31 @@ namespace TheLittleSweeperThatCould.Parsing
             };
         }
 
-        public Command ParseCommand(string text)
+        public static Command ParseCommand(string text)
         {
             string[] commandParts = text.Split(' ');
             return new Command()
             {
-                Direction = Command.Translate(commandParts[0]),
+                Direction = Translate(commandParts[0]),
                 Distance = Int32.Parse(commandParts[1])
             };
+        }
+
+        public static Direction Translate(string direction)
+        {
+            switch (direction)
+            {
+                case "N":
+                    return Direction.North;
+                case "E":
+                    return Direction.East;
+                case "S":
+                    return Direction.South;
+                case "W":
+                    return Direction.West;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

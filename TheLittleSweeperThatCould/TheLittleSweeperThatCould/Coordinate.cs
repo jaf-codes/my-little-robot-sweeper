@@ -8,12 +8,43 @@ namespace TheLittleSweeperThatCould
 {
     public class Coordinate
     {
-        public int Longitude;
-        public int Latitude;
+        public int Longitude { get; set; }
+        public int Latitude { get; set; }
+
+        public static Coordinate Advance(Coordinate coordinate, Direction direction, int distance = 1)
+        {
+            int longitude = coordinate.Longitude;
+            int latitude = coordinate.Latitude;
+
+            switch (direction)
+            {
+                case Direction.North:
+                    latitude = latitude + distance;
+                    break;
+                case Direction.East:
+                    longitude = longitude + distance;
+                    break;
+                case Direction.South:
+                    latitude = latitude - distance;
+                    break;
+                case Direction.West:
+                    longitude = longitude - distance;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("Neither flying nor transdimensional custodial robots are permitted for this application");
+            }
+
+            return new Coordinate()
+            {
+                Longitude = longitude,
+                Latitude = latitude
+            };
+
+        }
 
         public override int GetHashCode()
         {
-            return (Longitude * 53 + Latitude* 97);
+            return (Longitude * 53 + Latitude * 97);
         }
 
         public override bool Equals(object obj)

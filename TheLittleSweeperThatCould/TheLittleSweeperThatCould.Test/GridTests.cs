@@ -8,67 +8,37 @@ namespace TheLittleSweeperThatCould.Test
     {
         private Grid target;
 
-        private static Coordinate Center = new Coordinate()
-        {
-            Longitude = 1,
-            Latitude = 1
-        };
-
-        private static Coordinate NorthOfCenter = new Coordinate()
-        {
-            Longitude = Center.Longitude,
-            Latitude = Center.Latitude + 1
-        };
-
-        private static Coordinate EastOfCenter = new Coordinate()
-        {
-            Longitude = Center.Longitude + 1,
-            Latitude = Center.Latitude
-        };
-
-        private static Coordinate SouthOfCenter = new Coordinate()
-        {
-            Longitude = Center.Longitude,
-            Latitude = Center.Latitude - 1
-        };
-
-        private static Coordinate WestOfCenter = new Coordinate()
-        {
-            Longitude = Center.Longitude - 1,
-            Latitude = Center.Latitude
-        };
-
         [TestInitialize]
         public void InitializeTest()
         {
-            target = new Grid(Center.Longitude, Center.Latitude);
+            target = new Grid(TestCoordinates.Center);
         }
 
         [TestMethod]
         public void RetrieveNext_North_ExpectDirty()
         {
-            Coordinate expected = NorthOfCenter;
+            Coordinate expected = TestCoordinates.NorthOfCenter;
             RetrieveNext_StartAtCenter_NoneExist_Test(expected, Direction.North);
         }
 
         [TestMethod]
         public void RetrieveNext_East_ExpectDirty()
         {
-            Coordinate expected = EastOfCenter;
+            Coordinate expected = TestCoordinates.EastOfCenter;
             RetrieveNext_StartAtCenter_NoneExist_Test(expected, Direction.East);
         }
 
         [TestMethod]
         public void RetrieveNext_South_ExpectDirty()
         {
-            Coordinate expected = SouthOfCenter;
+            Coordinate expected = TestCoordinates.SouthOfCenter;
             RetrieveNext_StartAtCenter_NoneExist_Test(expected, Direction.South);
         }
 
         [TestMethod]
         public void RetrieveNext_West_ExpectDirty()
         {
-            Coordinate expected = WestOfCenter;
+            Coordinate expected = TestCoordinates.WestOfCenter;
             RetrieveNext_StartAtCenter_NoneExist_Test(expected, Direction.West);
         }
 
@@ -76,62 +46,21 @@ namespace TheLittleSweeperThatCould.Test
         private void RetrieveNext_StartAtCenter_NoneExist_Test(Coordinate expected, Direction direction)
         {
             //Arrange
-            Coordinate start = Center;
+            Coordinate start = TestCoordinates.Center;
             int expectedTilesCleaned = 1;
             Command command = new Command()
             {
                 Direction = direction,
                 Distance = 1
-
             };
 
             //Act
-            Coordinate actual = Center;
+            Coordinate actual = TestCoordinates.Center;
             int actualTilesCleaned = target.CleanAll(ref actual, command);
 
             //Assert
             Assert.AreEqual(expected, actual);
             Assert.AreEqual(expectedTilesCleaned, actualTilesCleaned);
-        }
-
-        [TestMethod]
-        public void Advance_North()
-        {
-            Coordinate expected = NorthOfCenter;
-            Advance_StartAtCenter_Test(expected, Direction.North);
-        }
-
-        [TestMethod]
-        public void Advance_East()
-        {
-            Coordinate expected = EastOfCenter;
-            Advance_StartAtCenter_Test(expected, Direction.East);
-        }
-
-        [TestMethod]
-        public void Advance_South()
-        {
-            Coordinate expected = SouthOfCenter;
-            Advance_StartAtCenter_Test(expected, Direction.South);
-        }
-
-        [TestMethod]
-        public void Advance_West()
-        {
-            Coordinate expected = WestOfCenter;
-            Advance_StartAtCenter_Test(expected, Direction.West);
-        }
-
-        private void Advance_StartAtCenter_Test(Coordinate expected, Direction direction)
-        {
-            //Arrange
-            Coordinate start = Center;
-
-            //Act
-            Coordinate actual = target.Advance(start, direction);
-
-            //Assert
-            Assert.AreEqual(expected, actual);
         }
     }
 }

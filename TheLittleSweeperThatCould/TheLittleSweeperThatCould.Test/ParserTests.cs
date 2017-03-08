@@ -7,12 +7,48 @@ namespace TheLittleSweeperThatCould.Test
     [TestClass]
     public class ParserTests
     {
-        private Parser target;
-
-        [TestInitialize]
-        public void InitializeTest()
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [TestMethod]
+        public void Translate_Nothing_ThrowException()
         {
-            target = new Parser();
+            //Arrange
+            string text = string.Empty;
+
+            //Act
+            Direction actual = Parser.Translate(text);
+        }
+
+        [TestMethod]
+        public void Translate_N_North()
+        {
+            TestTranslation("N", Direction.North);
+        }
+
+        [TestMethod]
+        public void Translate_E_East()
+        {
+            TestTranslation("E", Direction.East);
+        }
+
+        [TestMethod]
+        public void Translate_S_South()
+        {
+            TestTranslation("S", Direction.South);
+        }
+
+        [TestMethod]
+        public void Translate_W_West()
+        {
+            TestTranslation("W", Direction.West);
+        }
+
+        private static void TestTranslation(string text, Direction expected)
+        {
+            //Act
+            Direction actual = Parser.Translate(text);
+
+            //Assert
+            Assert.AreEqual(expected, actual);
         }
 
         [ExpectedException(typeof(FormatException))]
@@ -23,7 +59,7 @@ namespace TheLittleSweeperThatCould.Test
             string text = string.Empty;
 
             //Act
-            int actual = target.ParseNumberOfCommands(text);
+            int actual = Parser.ParseNumberOfCommands(text);
         }
 
         [TestMethod]
@@ -35,7 +71,7 @@ namespace TheLittleSweeperThatCould.Test
             int expected = 1;
 
             //Act
-            int actual = target.ParseNumberOfCommands(text);
+            int actual = Parser.ParseNumberOfCommands(text);
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -49,7 +85,7 @@ namespace TheLittleSweeperThatCould.Test
             string text = string.Empty;
 
             //Act
-            Coordinate actual = target.ParseStartingLocation(text);
+            Coordinate actual = Parser.ParseStartingLocation(text);
         }
 
         [ExpectedException(typeof(IndexOutOfRangeException))]
@@ -60,7 +96,7 @@ namespace TheLittleSweeperThatCould.Test
             string text = "1";
 
             //Act
-            Coordinate actual = target.ParseStartingLocation(text);
+            Coordinate actual = Parser.ParseStartingLocation(text);
         }
 
         [ExpectedException(typeof(FormatException))]
@@ -71,7 +107,7 @@ namespace TheLittleSweeperThatCould.Test
             string text = "1 A";
 
             //Act
-            Coordinate actual = target.ParseStartingLocation(text);
+            Coordinate actual = Parser.ParseStartingLocation(text);
         }
 
         [TestMethod]
@@ -83,7 +119,7 @@ namespace TheLittleSweeperThatCould.Test
             Coordinate expected = new Coordinate() { Longitude = 1, Latitude = 1 };
 
             //Act
-            Coordinate actual = target.ParseStartingLocation(text);
+            Coordinate actual = Parser.ParseStartingLocation(text);
         }
 
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
@@ -94,7 +130,7 @@ namespace TheLittleSweeperThatCould.Test
             string text = string.Empty;
 
             //Act
-            Command actual = target.ParseCommand(text);
+            Command actual = Parser.ParseCommand(text);
         }
 
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
@@ -105,7 +141,7 @@ namespace TheLittleSweeperThatCould.Test
             string text = "1";
 
             //Act
-            Command actual = target.ParseCommand(text);
+            Command actual = Parser.ParseCommand(text);
         }
 
         [ExpectedException(typeof(FormatException))]
@@ -116,7 +152,7 @@ namespace TheLittleSweeperThatCould.Test
             string text = "E A";
 
             //Act
-            Command actual = target.ParseCommand(text);
+            Command actual = Parser.ParseCommand(text);
         }
 
         [TestMethod]
@@ -128,7 +164,7 @@ namespace TheLittleSweeperThatCould.Test
             Command expected = new Command() { Direction = Direction.East, Distance = 1 };
 
             //Act
-            Command actual = target.ParseCommand(text);
+            Command actual = Parser.ParseCommand(text);
         }
     }
 }

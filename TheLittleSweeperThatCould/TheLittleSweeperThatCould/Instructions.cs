@@ -37,6 +37,7 @@ namespace TheLittleSweeperThatCould
                     locationsCleaned += grid.CleanAll(ref currentLocation, command);
                 }
             }
+
             catch { }
 
             return locationsCleaned;

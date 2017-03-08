@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace TheLittleSweeperThatCould
 {
-    public class Tile
+    public enum Direction
     {
-        public bool IsClean { get; set; }
+        North = 0,
+        East = 1,
+        South = 2,
+        West = 3
     }
 }

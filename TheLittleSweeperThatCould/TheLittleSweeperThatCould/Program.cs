@@ -14,15 +14,14 @@ namespace TheLittleSweeperThatCould
             int locationsCleaned = 0;
             try
             {
-                Parser parser = new Parser();
-                int numberOfCommands = parser.ParseNumberOfCommands(Console.ReadLine());
-                Coordinate startingLocation = parser.ParseStartingLocation(Console.ReadLine());
+                int numberOfCommands = Parser.ParseNumberOfCommands(Console.ReadLine());
+                Coordinate startingLocation = Parser.ParseStartingLocation(Console.ReadLine());
 
                 Instructions instructions = new Instructions(startingLocation);
 
                 for (int i = 0; i < numberOfCommands; i++)
                 {
-                    instructions.Load(parser.ParseCommand(Console.ReadLine()));
+                    instructions.Load(Parser.ParseCommand(Console.ReadLine()));
                 }
 
                 locationsCleaned = instructions.Execute();
