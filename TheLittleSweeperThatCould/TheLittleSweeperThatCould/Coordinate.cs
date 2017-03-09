@@ -11,6 +11,18 @@ namespace TheLittleSweeperThatCould
         public int Longitude { get; set; }
         public int Latitude { get; set; }
 
+        public Coordinate(string serializedCoordinate)
+        {
+            string[] coordinates = serializedCoordinate.Split(',');
+            Longitude = Int32.Parse(coordinates[0]);
+            Latitude = Int32.Parse(coordinates[1]);
+        }
+
+        public Coordinate()
+        {
+
+        }
+
         public static Coordinate Advance(Coordinate coordinate, Direction direction, int distance = 1)
         {
             int longitude = coordinate.Longitude;
@@ -61,6 +73,11 @@ namespace TheLittleSweeperThatCould
         {
             return (this.Longitude == other.Longitude &&
                     this.Latitude == other.Latitude);
+        }
+
+        public override string ToString()
+        {
+            return string.Concat(Longitude, ",", Latitude, Environment.NewLine);
         }
     }
 }

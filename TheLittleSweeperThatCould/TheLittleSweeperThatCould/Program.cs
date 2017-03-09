@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace TheLittleSweeperThatCould
     {
         public static void Main(string[] args)
         {
+            WipeOutTextFiles();
             int locationsCleaned = 0;
             try
             {
@@ -30,6 +32,14 @@ namespace TheLittleSweeperThatCould
             finally
             {
                 Console.WriteLine("=> Cleaned: " + locationsCleaned);
+            }
+        }
+
+        public static void WipeOutTextFiles()
+        {
+            foreach (string textFile in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt"))
+            {
+                File.Delete(textFile);
             }
         }
     }

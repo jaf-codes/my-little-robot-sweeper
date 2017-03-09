@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,20 +9,12 @@ namespace TheLittleSweeperThatCould
 {
     public class Grid
     {
-        private HashSet<Coordinate> coordinates;
+        private Sector currentSector;
 
-        public Grid(Coordinate startingLocation)
+        public Grid(Coordinate startingLocation, int maximumPossibleDistance = 0)
         {
-            coordinates = new HashSet<Coordinate>
-            {
-                {
-                    new Coordinate()
-                    {
-                        Longitude = startingLocation.Longitude,
-                        Latitude = startingLocation.Latitude
-                    }
-                }
-            };
+            Sector.DetermineSectorSize(maximumPossibleDistance);
+            currentSector = new Sector(startingLocation);
         }
 
         public int CleanAll(ref Coordinate location, Command command)
@@ -32,7 +25,15 @@ namespace TheLittleSweeperThatCould
             {
                 location = Coordinate.Advance(location, command.Direction);
 
-                if (coordinates.Add(location))
+                Coordinate locationSectorRoot = Sector.FindRoot(location);
+
+                if (!currentSector.Root.Equals(locationSectorRoot))
+                {
+                    currentSector.Save();
+                    currentSector = new Sector(location);
+                }
+
+                if (currentSector.Add(location))
                 {
                     locationsCleaned++;
                 }
@@ -41,6 +42,10 @@ namespace TheLittleSweeperThatCould
             return locationsCleaned;
         }
 
+
+
         
+
+
     }
 }
